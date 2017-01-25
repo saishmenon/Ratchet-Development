@@ -33,7 +33,7 @@ No additional requirements are necessary except that you should have local serve
 
 ## License
 
-Open Licence
+Open Licence, RIT Licence
 
 ## Acknowledgments
 
