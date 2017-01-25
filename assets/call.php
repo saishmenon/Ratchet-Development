@@ -3,8 +3,8 @@ $nodeList = array(); //what we want
 $tree     = array(); //temp holder
 
         $db="localhost";                                                                                // database host name
-        $dbUsername="saish";                                                                        // database username
-        $dbPassword="password";                                                                        // database password
+        $dbUsername="ratchetresu";                                                                        // database username
+        $dbPassword="N@rc0lepsea";                                                                        // database password
         $dbLink=mysql_connect($db,$dbUsername,$dbPassword);             // database link for connection to database
 
         // select which database you want to use for the game
