@@ -1,6 +1,6 @@
 # Ratchet
 
-Ratchet is an open-source project whose goal is to create software that can be used by large groups of people to construct attack trees. The value of an attack tree increases when the attack tree explores more scenarios. Crowd-sourcing an attack tree reduces the possibility that some options might be overlooked. RATCHET has been tested in classroom settings with positive results.
+Ratchet is an open-source project proposed by the Computing Security Department at RIT whose goal is to create software that can be used by large groups of people to construct attack trees. The value of an attack tree increases when the attack tree explores more scenarios. Crowd-sourcing an attack tree reduces the possibility that some options might be overlooked. RATCHET has been tested in classroom settings with positive results.
 
 
 ## Getting Started
