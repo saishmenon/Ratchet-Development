@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Tree From JSON</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+	
+	<script>
+        //Function to fetch the data from database and display as raw above the input field in the index.php file
+		function goGet(){
+			$.ajax({
+				url: "assets/call.php",
+				data:{'startNode':$('#in').val()}
+			}).done(function(d) {
+			  $( '#test' ).html( d );
+			});
+		}
+	</script>
+  </head>
+
+  <body>
+    
+    <header>
+        <nav>
+            <ul>
+                <li class="active"><a href="index.php">Generate Attack Tree</a></li>
+                <li><a href="#">View Attack Tree</a></li>
+                <li><a href="#">Search Attack Trees</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Forums</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+<!-- load the d3.js library -->	
+<script src="http://d3js.org/d3.v3.min.js"></script>
+	
+<script>
+
+// ************** Generate the tree diagram	 *****************
+var margin = {top: 20, right: 120, bottom: 20, left: 120},
+	width = 960 - margin.right - margin.left,
+	height = 500 - margin.top - margin.bottom;
+	
+var i = 0;
+
+var tree = d3.layout.tree()
+	.size([height, width]);
+
+var diagonal = d3.svg.diagonal()
+	.projection(function(d) { return [d.y, d.x]; });
+
+var svg = d3.select("body")
+            .append("svg")
+                .attr("width", width + margin.right + margin.left)
+                .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+ 
+
+// load and generate tree from external JSON File
+d3.json("treeData.json", function(error, treeData) {
+  root = treeData[0];
+  update(root);
+});
+
+function update(source) {
+
+  // Compute the new tree layout.
+  var nodes = tree.nodes(root).reverse(),
+	  links = tree.links(nodes);
+
+  // Normalize for fixed-depth.
+  nodes.forEach(function(d) { d.y = d.depth * 180; });
+
+  // Declare the nodes…
+  var node = svg.selectAll("g.node .little")
+	  .data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+  // Enter the nodes.
+  var nodeEnter = node.enter().append("g")
+	  .attr("class", "node")
+	  .attr("transform", function(d) { 
+		  return "translate(" + d.y + "," + d.x + ")"; });
+
+  nodeEnter.append("circle")
+      .classed("little", true)
+	  .attr("r", 10)
+      .on("click", function () {
+            d3.select(".selected").classed("selected", false);
+            d3.select(this).classed("selected", true);
+        });
+
+  nodeEnter.append("text")
+	  .attr("x", function(d) { 
+		  return d.children || d._children ? -13 : 13; })
+	  .attr("dy", ".35em")
+	  .attr("text-anchor", function(d) { 
+		  return d.children || d._children ? "end" : "start"; })
+	  .text(function(d) { return d.title; })
+	  .style("fill-opacity", 1);
+
+  // Declare the links…
+  var link = svg.selectAll("path.link")
+	  .data(links, function(d) { return d.target.id; });
+
+  // Enter the links.
+  link.enter().insert("path", "g")
+	  .attr("class", "link")
+	  .attr("d", diagonal);
+
+}
+
+
+function mousemove(d) {
+        div
+        .text("Info about " + d.title + ":" + d.info)
+        .style("left", (d3.event.pageX ) + "px")
+        .style("top", (d3.event.pageY) + "px");
+}
+
+function mouseout() {
+        div.transition()
+        .duration(300)
+        .style("opacity", 1e-6);
+}    
+</script>
+	
+  </body>
+</html>
